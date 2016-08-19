@@ -24,11 +24,11 @@ public class LeagueAPI {
 
 
     public static void main(String[] args) {
-        getRecentGames(51666047);
+        getRecentGames(51666047, "euw");
     }
 
-    public static JsonNode getRecentGames(long playerID) {
-        HttpGet getRequest = new HttpGet(BASEAPILOCATION.replaceAll("SERVER", "euw") + "v1.3/game/by-summoner/" + playerID + "/recent?api_key=" + APIKey);
+    public static JsonNode getRecentGames(long playerID, String server) {
+        HttpGet getRequest = new HttpGet(BASEAPILOCATION.replaceAll("SERVER", server) + "v1.3/game/by-summoner/" + playerID + "/recent?api_key=" + APIKey);
         return executeGet(getRequest);
     }
 

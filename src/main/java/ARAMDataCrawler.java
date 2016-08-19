@@ -30,7 +30,7 @@ public class ARAMDataCrawler {
             long lastLookupTime = System.currentTimeMillis();
             int newGamesFound = 0;
 
-            JsonNode recentGamesNode = LeagueAPI.getRecentGames(currentPlayerID);
+            JsonNode recentGamesNode = LeagueAPI.getRecentGames(currentPlayerID, region);
 
             //Sanity checks that we recieved a gameNode and that the game no contains a game list.
             if (recentGamesNode == null ) System.out.println("*** Recent game node is null for " + + currentPlayerID);
