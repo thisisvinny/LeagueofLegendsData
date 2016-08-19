@@ -24,7 +24,7 @@ public class LeagueAPI {
 
 
     public static void main(String[] args) {
-        getRecentGames(51666047, "euw");
+        System.out.println(getRecentGames(51666047, "euw"));
     }
 
     public static JsonNode getRecentGames(long playerID, String server) {
