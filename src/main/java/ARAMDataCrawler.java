@@ -125,7 +125,7 @@ public class ARAMDataCrawler {
      * team 1 is represented by the first 1 to MAXCHAMPID 'neurons' and team by the next MAXCHAMPID 'neurons'
      * @param team100 Champ Id's of players in the first team.
      * @param team200 Champ Id's of players in the second team.
-     * @return
+     * @return returns a 'neural' representation of the two teams, as a 2xNumChamps vector.
      */
     private static String buildNeuralVector(HashSet<Integer> team100, HashSet<Integer> team200) {
         int[] neurons = new int[champIDTranslationMap.size() * 2];
