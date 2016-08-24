@@ -31,19 +31,16 @@ public class ARAMDataCrawler {
         while (playerIDList.size() > currentPlayerIndex) {
             long currentPlayerID = playerIDList.get(currentPlayerIndex);
             long lastLookupTime = System.currentTimeMillis();
-            int newGamesFound = 0;
 
             JsonNode recentGamesNode = LeagueAPI.getRecentGames(currentPlayerID, region);
 
-            //Sanity checks that we recieved a gameNode and that the game no contains a game list.
+            //Sanity checks that we received a gameNode and that the game no contains a game list.
             if (recentGamesNode == null ) System.out.println("*** Recent game node is null for " + + currentPlayerID);
             else if (!recentGamesNode.has("games")) {
                 System.out.println("Encountered problem looking up player with ID: " + currentPlayerID);
                 System.out.println(recentGamesNode);
             } else {
-                Iterator<JsonNode> gameNodes = recentGamesNode.get("games").elements();
-                while (gameNodes.hasNext()) {
-                    JsonNode gameNode = gameNodes.next();
+                StreamSupport.stream(recentGamesNode.get("games").spliterator(), false).forEach(gameNode -> {
                     boolean isInvalid = gameNode.get("invalid").asBoolean();
                     long gameTimestamp = gameNode.get("createDate").asLong();
                     long gameID = gameNode.get("gameId").asLong();
@@ -59,15 +56,14 @@ public class ARAMDataCrawler {
                         if (!gamesIDsSeen.contains(gameID)) {
                             parseAndPrintGame(gameNode, region);
                             gamesIDsSeen.add(gameID);
-                            newGamesFound++;
                         }
                     }
-                }
+                });
 
                 long sleepTime = (lastLookupTime + requestDelayInMS) - System.currentTimeMillis();
                 if (sleepTime > 0) try { Thread.sleep(requestDelayInMS); } catch (InterruptedException e) { e.printStackTrace(); }
                 currentPlayerIndex++;
-                System.out.println("Crawled player number " + currentPlayerIndex + ", Players left: " + (playerIDList.size() - currentPlayerIndex) + ", Games found: " + gamesIDsSeen.size() + " (+" + newGamesFound + ")");
+                System.out.println("Crawled player number " + currentPlayerIndex + ", Players left: " + (playerIDList.size() - currentPlayerIndex) + ", Games found: " + gamesIDsSeen.size());
             }
         }
     }
@@ -103,9 +99,8 @@ public class ARAMDataCrawler {
             returnSet.add(champIDTranslationMap.get(gameNode.get("championId").asInt()));
         }
 
-        Iterator<JsonNode> playerNodes = gameNode.get("fellowPlayers").elements();
-        while (playerNodes.hasNext()) {
-            JsonNode playerNode = playerNodes.next();
+        // For each player node
+        StreamSupport.stream(gameNode.get("fellowPlayers").spliterator(), false).forEach( playerNode -> {
             int playerChampID = playerNode.get("championId").asInt();
             int playerTeamID = playerNode.get("teamId").asInt();
             long playerID = playerNode.get("summonerId").asLong();
@@ -115,7 +110,7 @@ public class ARAMDataCrawler {
                 returnSet.add(playerChampID);
                 if (!playerIDList.contains(playerID)) playerIDList.add(playerID);
             }
-        }
+        });
 
         if (returnSet.size() != 5) {
             System.out.println("Something went wrong, did not find 5 players for team " + teamID + " in gameID: " + gameNode.get("gameId").asLong() + " team size: " + returnSet.size());
