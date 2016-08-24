@@ -1,8 +1,12 @@
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.*;
+import java.util.stream.StreamSupport;
 
 /**
  * Created by Dons on 12-08-2016.
+ *
+ * MAge = 55%
+ * preist = 30%
  */
 public class ARAMDataCrawler {
     private static final long TIMESINCELASTPATCH  = 1000*60*60*24*8;
@@ -143,11 +147,8 @@ public class ARAMDataCrawler {
         TreeSet<Integer> sortedChampIDs = new TreeSet<>();
 
         JsonNode allChampionNodes = LeagueAPI.getChampions("euw");
-        Iterator<JsonNode> championNodes = allChampionNodes.get("champions").elements();
-        while (championNodes.hasNext()) {
-            JsonNode championNode = championNodes.next();
-            sortedChampIDs.add(championNode.get("id").asInt());
-        }
+        StreamSupport.stream(allChampionNodes.get("champions").spliterator(), false)
+                .forEach(node ->  sortedChampIDs.add(node.get("id").asInt()));
 
         int mappingID = 1;
         for (int id : sortedChampIDs) {
