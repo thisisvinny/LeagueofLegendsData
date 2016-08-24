@@ -139,17 +139,11 @@ public class ARAMDataCrawler {
      * Fills out a map translating from current champion ID's to ID 1->x where x is the current number of active champions.
      */
     private static void fillChampIDTranslationMap() {
-        TreeSet<Integer> sortedChampIDs = new TreeSet<>();
-
         JsonNode allChampionNodes = LeagueAPI.getChampions("euw");
         StreamSupport.stream(allChampionNodes.get("champions").spliterator(), false)
-                .forEach(node ->  sortedChampIDs.add(node.get("id").asInt()));
-
-        int mappingID = 1;
-        for (int id : sortedChampIDs) {
-            champIDTranslationMap.put(id, mappingID);
-            mappingID++;
-        }
+                .mapToInt(node -> node.get("id").asInt())
+                .sorted()
+                .forEachOrdered(id -> champIDTranslationMap.put(id, champIDTranslationMap.size() + 1));
 
         System.out.println(champIDTranslationMap.toString());
         System.out.println(champIDTranslationMap.size() + " Different ChampionID's found.");
