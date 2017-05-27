@@ -10,7 +10,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.DoubleBinaryOperator;
 import java.util.function.ToDoubleFunction;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -22,12 +21,12 @@ public class MatchDataAnalysis {
 
     public static void main(String[] args) throws IOException {
         fillWinRateMap();
-        //printWinrates();
-        predictOutcome();
+        predictOutcomeUsingNaiveBayes();
+        printWinrates();
     }
 
 
-    private static void predictOutcome() throws IOException {
+    private static void predictOutcomeUsingNaiveBayes() throws IOException {
         List<String> team1 = Files.readAllLines(Paths.get("Input/Test/team1.txt"));
         List<String> team2 = Files.readAllLines(Paths.get("Input/Test/team2.txt"));
         List<String> results = Files.readAllLines(Paths.get("Input/Test/result.txt"));
