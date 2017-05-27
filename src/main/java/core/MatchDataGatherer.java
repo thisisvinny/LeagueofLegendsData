@@ -76,6 +76,7 @@ public class MatchDataGatherer {
         });
 
         //print teams to file
+        assert (team1Ids.size() == team2Ids.size());
         String fileLocation = (random.nextInt(5) == 0) ? "Output/Test/" : "Output/Train/";
         BobUtil.writeTextToFile(team1Ids.stream().collect(Collectors.joining(",")),fileLocation + "team1.txt",true);
         BobUtil.writeTextToFile(team2Ids.stream().collect(Collectors.joining(",")),fileLocation + "team2.txt",true);
