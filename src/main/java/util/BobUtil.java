@@ -1,11 +1,10 @@
+package util;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-/**
- * Created by Dons on 17-08-2016.
- */
-public class BobsUtility {
+public class BobUtil {
 
     /**
      * Returns false if the output could not be written for any reason.
@@ -37,7 +36,7 @@ public class BobsUtility {
         //now try writing the output string
         try(FileWriter writer = new FileWriter(filePath, append)) {
             if (fileCreated) writer.write(text);
-            else writer.write("\n" + text);
+            else writer.write(System.lineSeparator() + text);
             return true;
         } catch (IOException e) {
             System.out.println("Could not save text to: " + filePath + " - TEXT: " + text);
