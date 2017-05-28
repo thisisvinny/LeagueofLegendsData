@@ -22,7 +22,7 @@ public class MatchDataAnalysis {
     public static void main(String[] args) throws IOException {
         fillWinRateMap();
         predictOutcomeUsingNaiveBayes();
-        printWinrates();
+        //printWinrates();
     }
 
 
@@ -34,6 +34,8 @@ public class MatchDataAnalysis {
 
         int[] guesses = new int[2];
 
+
+        //web json -> DB -> traing data -> machine learning
         IntStream.range(0, team1.size()).forEach(i -> {
             List<String> team1Ids = List.of(team1.get(i).split(","));
             List<String> team2Ids = List.of(team2.get(i).split(","));

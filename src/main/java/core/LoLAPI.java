@@ -9,6 +9,7 @@ import util.PrettyPrinter;
 
 import java.io.IOException;
 import java.net.URI;
+import java.nio.channels.UnresolvedAddressException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
@@ -57,7 +58,7 @@ public class LoLAPI {
             else {
                 System.out.println("something went wrong getting " + urlString + " ... " + response.body());
             }
-        } catch (IOException | InterruptedException e) {
+        } catch (IOException | InterruptedException | UnresolvedAddressException e) {
             e.printStackTrace();
         }
         return null;
