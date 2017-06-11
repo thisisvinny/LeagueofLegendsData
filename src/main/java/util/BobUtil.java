@@ -1,5 +1,7 @@
 package util;
 
+import com.google.common.base.Strings;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -43,5 +45,13 @@ public class BobUtil {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public static String strictFill(String text, int maximumLength) { return strictFill(text, ' ', maximumLength); }
+    public static String strictFill(String text, char fill, int maximumLength) {
+        if (text.length() <= maximumLength)
+            return Strings.padEnd(text, maximumLength, fill);
+        else
+            return text.substring(0, maximumLength - 2) + "..";
     }
 }
