@@ -18,7 +18,7 @@ public class MatchDataGatherer {
     private static final Random random = new Random();
 
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] arg5s) throws InterruptedException {
         //add seed players
         unVisitedPlayers.offer(19816915L);
         crawlMatchData();

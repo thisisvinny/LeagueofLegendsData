@@ -8,11 +8,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.function.ToDoubleFunction;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 public class MatchDataAnalysis {
     private static final Map<String, String> idToChampNameMap = LoLAPI.getChampIdToNameMap();
@@ -25,10 +22,10 @@ public class MatchDataAnalysis {
     public static void main(String[] args) throws IOException {
         loadData();
         fillWinRateMap();
-        printWinrates();
-        //printTeamWinrates();
+        //printWinRates();
+        //printTeamWinRates();
         //printChampionPopularity();
-        //predictOutcomeUsingNaiveBayes();
+        predictOutcomeUsingNaiveBayes();
     }
 
 
@@ -64,13 +61,13 @@ public class MatchDataAnalysis {
         });
     }
 
-    private static void printWinrates() {
+    private static void printWinRates() {
         winRates.entrySet().stream()
                 .sorted(Comparator.comparingDouble(Map.Entry<String, Double>::getValue).reversed())
                 .forEachOrdered(entry -> System.out.println(idToChampNameMap.get(entry.getKey()) + ": " + String.format("%.2f",entry.getValue() * 100)));
     }
 
-    private static void printTeamWinrates() {
+    private static void printTeamWinRates() {
         Multiset<String> teamWins = HashMultiset.create(2);
         teamWins.addAll(results);
         System.out.println("Bottom side wins " +  String.format("%.2f",100*(float)teamWins.count("1")/teamWins.size()) + "%");
